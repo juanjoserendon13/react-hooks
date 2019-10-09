@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import useForm from './hooks/useForm';
 import useFetch from './hooks/useFetch';
@@ -16,9 +16,21 @@ function App() {
       window.removeEventListener('mousemove', onMouseMove);
     }
   }, []); */
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(() => {
+    // This way calling a function in a useState is a lazy initial state
+    // When there is a complex computation process
+    // This will be called just once and return the initial state
+    const local = JSON.parse(localStorage.getItem('count'))
+    return local ? local : 0;
+  });
   const { data, loading } = useFetch(`http://numbersapi.com/${count}/trivia`);
-  console.log(data)
+
+  useEffect(() => {
+    localStorage.setItem('count', JSON.stringify(count));
+    // This values is a dependency array, every it changes
+    // the useEffect will be called again
+  }, [count]);
+
   return (
     <div className="App">
       <div>{!data ? 'Loading...' : data}</div>

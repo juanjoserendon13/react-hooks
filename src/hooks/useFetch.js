@@ -15,7 +15,7 @@ const useFetch = (url) => {
     }
     fetchData();
 
-  }, [url]);
+  }, [url, setState]);
   // Return the result of the fetch
   return state;
 }
