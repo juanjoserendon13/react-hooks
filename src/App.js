@@ -21,12 +21,6 @@ function App() {
   const inputRef = useRef();
   const [showChild, setShowChild] = useState(true);
 
-  // Get sone information from DOM nodes
-  // When all the effects have been performed
-  useLayoutEffect(() => {
-    // console.log(inputRef.current.getBoundingClientRect());
-  }, []);
-
   return (
     <div className="App">
       <button onClick={() => setShowChild(!showChild)}>toggle</button>
@@ -36,12 +30,6 @@ function App() {
         type="text"
         name="email"
         value={values.email}
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        name="password"
-        value={values.password}
         onChange={handleChange}
       />
       <button

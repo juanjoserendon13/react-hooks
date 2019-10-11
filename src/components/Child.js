@@ -3,8 +3,6 @@ import useFetch from '../hooks/useFetch';
 import useMeasure from '../hooks/useMeasure';
 
 const Child = () => {
-  const renders = useRef(0);
-  // console.log('renders:', renders.current++);
 
   const [count, setCount] = useState(() => {
     // This way calling a function in a useState is a lazy initial state
