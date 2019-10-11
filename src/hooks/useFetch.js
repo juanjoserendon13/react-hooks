@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useFetch = (url) => {
+const useFetch = url => {
   const [state, setState] = useState({ data: null, loading: true });
   useEffect(() => {
     // Initialize the fetch on every call.
@@ -10,14 +10,15 @@ const useFetch = (url) => {
     const fetchData = async () => {
       const response = await fetch(url);
       const data = await response.text();
-      // Set the data fetched into the state
-      setState({ data, loading: false });
-    }
+      setTimeout(() => {
+        // Set the data fetched into the state
+        setState({ data, loading: false });
+      }, 2000);
+    };
     fetchData();
-
   }, [url, setState]);
   // Return the result of the fetch
   return state;
-}
+};
 
 export default useFetch;
