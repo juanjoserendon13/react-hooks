@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import useFetch from '../hooks/useFetch';
+import useMeasure from '../hooks/useMeasure';
 
 const Child = () => {
   const renders = useRef(0);
@@ -19,9 +20,13 @@ const Child = () => {
     // the useEffect will be called again
   }, [count]);
 
+  const [rect, divRef] = useMeasure([data]);
   return (
     <div>
-      <div>{!data ? 'Loading...' : data}</div>
+      <div style={{ display: 'flex' }}>
+        <div ref={divRef}>{!data ? 'Loading...' : data}</div>
+      </div>
+      <pre>{JSON.stringify(rect, null, 2)}</pre>
       <div>count: {count}</div>
       <button onClick={() => setCount(c => c + 1)}>Increment</button>
     </div>

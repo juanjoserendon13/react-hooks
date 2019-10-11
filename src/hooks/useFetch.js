@@ -25,7 +25,7 @@ const useFetch = url => {
         if (isCurrent.current) {
           setState({ data, loading: false });
         }
-      }, 2000);
+      }, 100);
     };
     fetchData();
   }, [url, setState]);
