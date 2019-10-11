@@ -1,7 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const useFetch = url => {
+  const isCurrent = useRef(true);
   const [state, setState] = useState({ data: null, loading: true });
+
+  useEffect(() => {
+    return () => {
+      // Called when the component is going to unmount
+      isCurrent.current = false;
+    };
+  }, []);
+
   useEffect(() => {
     // Initialize the fetch on every call.
     // In case there is already data in the state
@@ -12,7 +21,10 @@ const useFetch = url => {
       const data = await response.text();
       setTimeout(() => {
         // Set the data fetched into the state
-        setState({ data, loading: false });
+        // Avoid update if its unmounted
+        if (isCurrent.current) {
+          setState({ data, loading: false });
+        }
       }, 2000);
     };
     fetchData();
