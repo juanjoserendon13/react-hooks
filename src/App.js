@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import useForm from './hooks/useForm';
 import useFetch from './hooks/useFetch';
 
 function App() {
-  const [values, handleChange] = useForm({ email: "", password: "" });
+  const [values, handleChange] = useForm({ email: '', password: '' });
   /* useEffect(() => {
     const onMouseMove = e => {
       console.log(e);
@@ -20,10 +20,12 @@ function App() {
     // This way calling a function in a useState is a lazy initial state
     // When there is a complex computation process
     // This will be called just once and return the initial state
-    const local = JSON.parse(localStorage.getItem('count'))
+    const local = JSON.parse(localStorage.getItem('count'));
     return local ? local : 0;
   });
   const { data, loading } = useFetch(`http://numbersapi.com/${count}/trivia`);
+
+  const inputRef = useRef();
 
   useEffect(() => {
     localStorage.setItem('count', JSON.stringify(count));
@@ -37,15 +39,25 @@ function App() {
       <div>count: {count}</div>
       <button onClick={() => setCount(c => c + 1)}>Increment</button>
       <input
+        ref={inputRef}
         type="text"
         name="email"
         value={values.email}
-        onChange={handleChange} />
+        onChange={handleChange}
+      />
       <input
         type="password"
         name="password"
         value={values.password}
-        onChange={handleChange} />
+        onChange={handleChange}
+      />
+      <button
+        onClick={() => {
+          inputRef.current.focus();
+        }}
+      >
+        Focus
+      </button>
     </div>
   );
 }
