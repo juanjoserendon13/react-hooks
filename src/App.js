@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import SideEffects from './components/SideEffects';
 import Item from './components/Item';
@@ -41,7 +41,9 @@ function App() {
     [setCount]
   );
 
-  const [context, setContext] = useState('context');
+  const [context, setContext] = useState(null);
+  const withOutMemo = { context, setContext };
+  const providerContext = useMemo(() => ({ context, setContext }), [context, setContext]);
 
   return (
     <div className="App">
@@ -77,7 +79,7 @@ function App() {
               <Link to="/about/">About</Link>
             </li>
           </nav>
-          <UserContext.Provider value={{ context, setContext }}>
+          <UserContext.Provider value={providerContext}>
             <Route path="/" exact component={Home} />
             <Route path="/about/" exact component={About} />
           </UserContext.Provider>

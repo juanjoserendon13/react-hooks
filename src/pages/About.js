@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UserContext from '../UserContext';
 
 const About = () => {
+  const { context, setContext } = useContext(UserContext);
   return (
     <div>
-      About
+      <h2>About</h2>
+      <pre>{JSON.stringify(context, null, 2)}</pre>
     </div>
   )
 }
