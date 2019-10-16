@@ -1,10 +1,10 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
-import Child from './components/Child';
+import React, { useState, useRef, useCallback } from 'react';
+import SideEffects from './components/SideEffects';
 import Item from './components/Item';
 import ReducerSection from './components/ReducerSection';
+import UseMemoSection from './components/UseMemoSection';
 
 import useForm from './hooks/useForm';
-import useFetch from './hooks/useFetch';
 
 function App() {
   const [values, handleChange] = useForm({ email: '', password: '' });
@@ -23,7 +23,6 @@ function App() {
   const inputRef = useRef();
   const [showChild, setShowChild] = useState(true);
   const [count, setCount] = useState(0);
-  const { data } = useFetch('https://api.kanye.rest/ajzbc/kanye.rest/master/quotes.json')
   const items = [10, 20, 30];
 
   // Use callback to pass returned callback as a prop to child components
@@ -35,29 +34,10 @@ function App() {
     [setCount]
   );
 
-  const computeLongestWord = (sentence) => {
-    console.log('computed');
-    if (!sentence) {
-      return [];
-    }
-    let longestWord = '';
-    JSON.parse(sentence).quote.split(' ').forEach(w => {
-      if (w.length > longestWord.length) {
-        longestWord = w;
-      }
-    });
-    return longestWord;
-  };
-
-  // Use memo for expensive calculations in the current component
-  const longestWord = useMemo(() => computeLongestWord(data), [data]);
-
-
-
   return (
     <div className="App">
       <button onClick={() => setShowChild(!showChild)}>toggle</button>
-      {showChild && <Child />}
+      {showChild && <SideEffects />}
       <input
         ref={inputRef}
         type="text"
@@ -76,7 +56,7 @@ function App() {
       {items.map(n => {
         return <Item increment={increment} n={n} key={n} />;
       })}
-      <div>Computed sentence: {longestWord}</div>
+      <UseMemoSection />
       <ReducerSection />
     </div>
   );
