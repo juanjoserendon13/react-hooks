@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useFetch from '../hooks/useFetch';
 import useMeasure from '../hooks/useMeasure';
 
