@@ -9,6 +9,8 @@ import UseMemoSection from './components/UseMemoSection';
 import Home from './pages/Home';
 import About from './pages/About';
 
+import UserContext from './UserContext'
+
 import useForm from './hooks/useForm';
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
     },
     [setCount]
   );
+
+  const [context, setContext] = useState('context');
 
   return (
     <div className="App">
@@ -73,8 +77,10 @@ function App() {
               <Link to="/about/">About</Link>
             </li>
           </nav>
-          <Route path="/" exact component={Home} />
-          <Route path="/about/" exact component={About} />
+          <UserContext.Provider value={{ context, setContext }}>
+            <Route path="/" exact component={Home} />
+            <Route path="/about/" exact component={About} />
+          </UserContext.Provider>
         </div>
       </Router>
     </div>
