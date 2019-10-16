@@ -7,7 +7,7 @@ const useMeasure = deps => {
   // When all the effects have been performed
   useLayoutEffect(() => {
     setRect(localRef.current.getBoundingClientRect());
-  }, deps);
+  }, [deps]);
 
   return [rect, localRef];
 };

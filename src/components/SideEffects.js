@@ -18,7 +18,7 @@ const Child = () => {
     // the useEffect will be called again
   }, [count]);
 
-  const [rect, divRef] = useMeasure([data]);
+  const [rect, divRef] = useMeasure(data);
   return (
     <div>
       <div style={{ display: 'flex' }}>
