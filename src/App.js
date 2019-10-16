@@ -1,8 +1,13 @@
 import React, { useState, useRef, useCallback } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import SideEffects from './components/SideEffects';
 import Item from './components/Item';
 import ReducerSection from './components/ReducerSection';
 import UseMemoSection from './components/UseMemoSection';
+
+// Pages
+import Home from './pages/Home';
+import About from './pages/About';
 
 import useForm from './hooks/useForm';
 
@@ -58,6 +63,20 @@ function App() {
       })}
       <UseMemoSection />
       <ReducerSection />
+      <Router>
+        <div>
+          <nav>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about/">About</Link>
+            </li>
+          </nav>
+          <Route path="/" exact component={Home} />
+          <Route path="/about/" exact component={About} />
+        </div>
+      </Router>
     </div>
   );
 }
