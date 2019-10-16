@@ -1,9 +1,20 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useReducer } from 'react';
 import Child from './components/Child';
 import Item from './components/Item';
 
 import useForm from './hooks/useForm';
 import useFetch from './hooks/useFetch';
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD-TODO':
+      return { ...state, todos: [...state.todos, { text: action.payload, completed: false }] };
+    case 'TOGGLE-TODO':
+      return { todos: state.todos.map((t, i) => i === action.payload ? { ...t, completed: !t.completed } : t) };
+    default:
+      return state;
+  }
+}
 
 function App() {
   const [values, handleChange] = useForm({ email: '', password: '' });
@@ -51,6 +62,9 @@ function App() {
   // Use memo for expensive calculations in the current component
   const longestWord = useMemo(() => computeLongestWord(data), [data]);
 
+  const [{ todos }, dispatch] = useReducer(reducer, { todos: [] });
+  const [text, setText] = useState('');
+
   return (
     <div className="App">
       <button onClick={() => setShowChild(!showChild)}>toggle</button>
@@ -74,6 +88,21 @@ function App() {
         return <Item increment={increment} n={n} key={n} />;
       })}
       <div>Computed sentence: {longestWord}</div>
+      <div>
+        <p>useReducer section</p>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          dispatch({ type: 'ADD-TODO', payload: text })
+          setText('');
+        }}>
+          <input type="text" value={text} onChange={e => setText(e.target.value)} />
+        </form>
+        {todos.map((t, i) =>
+          <div key={t.text}
+            onClick={() => dispatch({ type: 'TOGGLE-TODO', payload: i })}>
+            {t.text}
+          </div>)}
+      </div>
     </div>
   );
 }
